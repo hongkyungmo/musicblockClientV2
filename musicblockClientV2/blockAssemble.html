@@ -66,26 +66,34 @@
 			float:left;
 			left:80px;
 			height:50px;
-			width:50%;
+			width:400px;
 			padding:3px;
 			background-color:lightgoldenrodyellow;
 		}
 		#dest-scrollbar-walker{
 			position:relative;
 			height:44px;
-			width:90%;
+			width:100%;
 			background-color:royalblue;
 			border-radius:2px
 		}
-		#play-btn{
+		.compose-btns{
 			position:relative;
 			float:left;
 			top:4px;
-			left:85px;
-			height:42px;
-			width:42px;
+			height:41px;
+			width:44px;
 			background-color:white;
 			border-radius:3px;
+		}
+		#play-btn{
+			left:87px;
+		}
+		#stop-btn{
+			left:94px;
+		}
+		#next-btn{
+			left:100px;
 		}
 		
 		#sourceWrapper{
@@ -111,6 +119,9 @@
 			background-color:white;
 			border-radius:4px;
 			z-index:2;
+		}
+		#dest-piano > .item{
+			z-index:0;
 		}
 	</style>
 	
@@ -175,6 +186,9 @@
 							$("#dest-piano > .item:eq("+destIndex+")").after(cloneItem);
 						}
 					}
+					
+					//스크롤바 크기 업데이트
+					sizingScrollbar();
 				}
 			});
 		});
@@ -186,6 +200,15 @@
 				axis:'x'
 			});
 		});
+		var sizingScrollbar = function(){
+			var itemLength = $("#dest-piano > .item").length;
+			if(itemLength<=5){
+				return;
+			}
+			var scrollbarSize = itemLength/5;
+			scrollbarPercent = 100/scrollbarSize;
+			$("#dest-scrollbar-walker").css("width", scrollbarPercent + "%");
+		}
 	</script>
 </head>
 
@@ -199,7 +222,9 @@
 		<div id="dest-scrollbar">
 			<div id="dest-scrollbar-walker"></div>
 		</div>
-		<div id="play-btn"><br>&nbsp;&nbsp;play</div>
+		<div class="compose-btns" id="play-btn"><br>&nbsp;&nbsp;play</div>
+		<div class="compose-btns" id="stop-btn"><br>&nbsp;&nbsp;stop</div>
+		<div class="compose-btns" id="next-btn"><br>&nbsp;&nbsp;next</div>
 		<div id="dest-piano"></div>
 	</div>
 	
