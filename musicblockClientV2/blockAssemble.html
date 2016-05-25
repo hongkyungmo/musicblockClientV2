@@ -174,10 +174,8 @@
 					//아이템 추가(DOM트리에 추가 및 화면에 표시)
 					
 					if(itemLength == 0){//추가된 아이템이 없을 때
-						console.log("디버깅1");
 						$("#dest-piano").append(cloneItem);
 					}else if(itemLength < destIndex+1){//추가된 아이템보다 뒤쪽으로 추가될 때
-						console.log("디버깅2");
 						$("#dest-piano > .item:last").after(cloneItem);
 					}else{//추가된 아이템보다 앞쪽이거나 아이템 중간에 삽입
 						if(destIndex == -1){//추가된 아이템보다 앞쪽으로 추가될 때
@@ -198,6 +196,15 @@
 			$("#dest-scrollbar-walker").draggable({
 				containment:'parent',
 				axis:'x'
+			});
+			$("#dest-scrollbar-walker").on("dragstop", function(event){
+				
+			});
+			$("#dest-scrollbar-walker").on("drag", function(event){
+				var left = $("#dest-piano").css("left");
+				var leftInt = parseInt(left);
+				leftInt -= 2;
+				$("#dest-piano").css("left", leftInt + "px");
 			});
 		});
 		var sizingScrollbar = function(){
