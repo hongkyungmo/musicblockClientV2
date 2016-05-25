@@ -33,35 +33,37 @@
 		}
 		/*메뉴바*/
 		#menubar{
-			height:50px;
+			height:12%;
 			width:100%;
 			background-color:black;
 		}
 		/*레이어*/
 		#dest-wrapper{
 			position:relative;
-			height:80px;
+			height:60px;
 			width:100%;
 			background-color:green;
 		}
 		#dest-piano{
 			position:relative;
-			left:40px;
-			height:80px;
-			width:100%;
+			left:80px;
+			height:100%;
+			width:560px;
+			padding:0px 0px 10px 0px;
 			background-color:greenyellow;
 		}
 		#sourceWrapper{
 			position:relative;
-			height:80px;
-			width:200%;
+			height:300%;
+			width:100%;
 			background-color:blue;
 		}
 		#source{
 			position:relative;
-			left:40px;
-			height:100%;
-			width:200%;
+			left:80px;
+			height:30%;
+			width:450px;
+			padding:0px 0px 10px 0px;
 			background-color:cornflowerblue;
 		}
 		/*아이템*/
@@ -69,7 +71,7 @@
 			float:left;
 			width:100px;
 			height:40px;
-			margin:20px 10px 20px 10px;
+			margin:10px 0px 0px 10px;
 			background-color:crimson;
 		}
 	</style>
@@ -77,7 +79,7 @@
 	<script>
 		$(function(){
 			$(".item").draggable({
-				opacity:"0.5",
+				opacity:"0.8",
 				helper:function(){
 					return $(this).clone();
 				},
@@ -100,21 +102,43 @@
 					var destPosY =  $(".item:last").offset().top - $(this).offset().top;
 					console.log("x : " + destPosX + ", y : " + destPosY);
 					
-					//추가될 위치 계산
-					var centerPosX = destPosX + 60 - 10;
-					var destIndex = Math.floor(centerPosX/120);
-					var destPosX = destIndex*120;
+					//여태까지 추가되었던 아이템 갯수
+					var itemLength = $("#dest-piano > .item").length;
 					
-					//위치 재정렬
-					$(this).append($(".item:last").clone().css("left", destPosX + "px").css("top", "0px").css("opacity", "1"));
+					//추가될 위치 계산
+					var centerPosX = destPosX - 5;
+					var destIndex = Math.floor(centerPosX/110);
+					console.log("destIndex : " + destIndex);
+					
+					//아이템(추가된 것 반영)에 맞게 컨테이너 폭 넓히기
+					if(itemLength >= 5){
+						var destWidth = $("#dest-piano").css("width");
+						var destInt = parseInt(destWidth);
+						destInt += 110;
+						$("#dest-piano").css("width", destInt + "px");
+					}
+					
+					//아이템 복사
+					var cloneItem = $(".item:last").clone();
+					cloneItem.css("top", "0px").css("opacity", "1").css("background-color", "yellow").css("position", "relative").css("left", "0px");
+					
+					//아이템 추가(DOM트리에 추가 및 화면에 표시)
+					
+					if(itemLength == 0){//추가된 아이템이 없을 때
+						console.log("디버깅1");
+						$("#dest-piano").append(cloneItem);
+					}else if(itemLength < destIndex+1){//추가된 아이템보다 뒤쪽으로 추가될 때
+						console.log("디버깅2");
+						$("#dest-piano > .item:last").after(cloneItem);
+					}else{//추가된 아이템보다 앞쪽이거나 아이템 중간에 삽입
+						if(destIndex == -1){//추가된 아이템보다 앞쪽으로 추가될 때
+							$("#dest-piano > .item:eq(0)").before(cloneItem);
+						}else{//일반적 추가
+							$("#dest-piano > .item:eq("+destIndex+")").after(cloneItem);
+						}
+					}
 				}
 			});
-		});
-		
-		$(function(){
-			/*$(".item").on("dragend", function(){
-				alert();
-			});*/
 		});
 	</script>
 </head>
@@ -123,21 +147,42 @@
 	<div id="menubar"></div>
 	<div id="dest-wrapper">
 		<div id="dest-piano">
-
+			<!--<div class="item"></div>-->
 		</div>
 	</div>
 	
 	<div id="sourceWrapper">
 		<div id="source">
-			<div class="item"></div>
-			<div class="item"></div>
-			<div class="item"></div>
-			<div class="item"></div>
-			<div class="item"></div>
-			<div class="item"></div>
-			<div class="item"></div>
-			<div class="item"></div>
-			<div class="item"></div>
+			<div class="item">1</div>
+			<div class="item">2</div>
+			<div class="item">3</div>
+			<div class="item">4</div>
+			<div class="item">5</div>
+			<div class="item">6</div>
+			<div class="item">7</div>
+			<div class="item">8</div>
+			<div class="item">9</div>
+			<div class="item">10</div>
+			<div class="item">11</div>
+			<div class="item">12</div>
+			<div class="item">13</div>
+			<div class="item">14</div>
+			<div class="item">15</div>
+			<div class="item">16</div>
+			<div class="item">17</div>
+			<div class="item">18</div>
+			<div class="item">19</div>
+			<div class="item">20</div>
+			<div class="item">21</div>
+			<div class="item">22</div>
+			<div class="item">23</div>
+			<div class="item">24</div>
+			<div class="item">25</div>
+			<div class="item">26</div>
+			<div class="item">27</div>
+			<div class="item">28</div>
+			<div class="item">29</div>
+			<div class="item">30</div>
 		</div>
 	</div>
 </body>
