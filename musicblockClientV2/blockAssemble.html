@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+
+	<!-- jQuery CDN -->
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-2.2.2.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+
+	<!-- touchpunch -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+
+	<!-- 부트스트랩 CDN -->
+	<!-- 합쳐지고 최소화된 최신 CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<!-- 부가적인 테마 -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+	<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	
+	
+	<style>
+		html, body {
+			height: 100%;
+			width: 100%;
+			overflow: hidden;
+		}
+		/*메뉴바*/
+		#menubar{
+			height:50px;
+			width:100%;
+			background-color:black;
+		}
+		/*레이어*/
+		#dest-wrapper{
+			position:relative;
+			height:80px;
+			width:100%;
+			background-color:green;
+		}
+		#dest-piano{
+			position:relative;
+			left:40px;
+			height:80px;
+			width:100%;
+			background-color:greenyellow;
+		}
+		#sourceWrapper{
+			position:relative;
+			height:80px;
+			width:200%;
+			background-color:blue;
+		}
+		#source{
+			position:relative;
+			left:40px;
+			height:100%;
+			width:200%;
+			background-color:cornflowerblue;
+		}
+		/*아이템*/
+		.item{
+			float:left;
+			width:100px;
+			height:40px;
+			margin:20px 10px 20px 10px;
+			background-color:crimson;
+		}
+	</style>
+	
+	<script>
+		$(function(){
+			$(".item").draggable({
+				opacity:"0.5",
+				helper:function(){
+					return $(this).clone();
+				},
+				revert:function(event,ui){
+					if(event==false){
+						return true;
+					}else{
+						return false;
+					}
+				},
+				stop:function(event,ui){
+					
+				}
+			});
+			$("#dest-piano").droppable({
+				accept:".item",
+				drop:function(event,ui){
+					//놓인 곳의 부모와의 상대좌표
+					var destPosX = $(".item:last").offset().left - $(this).offset().left;
+					var destPosY =  $(".item:last").offset().top - $(this).offset().top;
+					console.log("x : " + destPosX + ", y : " + destPosY);
+					
+					//추가될 위치 계산
+					var centerPosX = destPosX + 60 - 10;
+					var destIndex = Math.floor(centerPosX/120);
+					var destPosX = destIndex*120;
+					
+					//위치 재정렬
+					$(this).append($(".item:last").clone().css("left", destPosX + "px").css("top", "0px").css("opacity", "1"));
+				}
+			});
+		});
+		
+		$(function(){
+			/*$(".item").on("dragend", function(){
+				alert();
+			});*/
+		});
+	</script>
+</head>
+
+<body>
+	<div id="menubar"></div>
+	<div id="dest-wrapper">
+		<div id="dest-piano">
+
+		</div>
+	</div>
+	
+	<div id="sourceWrapper">
+		<div id="source">
+			<div class="item"></div>
+			<div class="item"></div>
+			<div class="item"></div>
+			<div class="item"></div>
+			<div class="item"></div>
+			<div class="item"></div>
+			<div class="item"></div>
+			<div class="item"></div>
+			<div class="item"></div>
+		</div>
+	</div>
+</body>
+
+</html>
