@@ -33,7 +33,7 @@
 		}
 		/*메뉴바*/
 		#menubar{
-			height:12%;
+			height:50px;
 			width:100%;
 			background-color:black;
 		}
@@ -123,9 +123,28 @@
 		#dest-piano > .item{
 			z-index:0;
 		}
+		.item-popup{
+			position:relative;
+			top:-10px;
+			left:15px;
+			height:50px;
+			width:110px;
+			background-color:yellow;
+			z-index:4;
+			border-radius:4px;
+		}
+		#item-popup-background{
+			position:fixed;
+			top:160px;
+			width:100%;
+			height:100%;
+			opacity:0.3;
+			background-color:green;
+		}
 	</style>
 	
 	<script>
+		/*드래그 & 드롭*/
 		$(function(){
 			$(".item").draggable({
 				opacity:"0.8",
@@ -182,6 +201,11 @@
 							$("#dest-piano > .item:eq("+destIndex+")").after(cloneItem);
 						}
 					}
+					cloneItem.css("width", "40px");
+					cloneItem.animate({
+							width:'100px'
+						}, 500, function(){
+					});
 					
 					//스크롤바 크기 업데이트
 					resizingScrollbar();
@@ -231,6 +255,50 @@
 			scrollbarPercent = 100/scrollbarSize;
 			$("#dest-scrollbar-walker").css("width", scrollbarPercent + "%");
 		}
+		
+		/*플레이, 정지*/
+		$(function(){
+			$("#play-btn").on("click", function(){
+				alert("play");
+			});
+			$("#stop-btn").on("click", function(){
+				alert("stop");
+			});
+		});
+		
+		/*롱클릭*/
+		$(function(){
+			var touchFlag = false;
+			var obj;
+			$(".item").on("touchstart", function () {
+				console.log("터치스타트");
+				//클릭시 제어를 위한 변수 셋팅
+				//touchFlag : 클릭을 유지하고 있는지를 판단하는 변수
+				touchFlag = true;
+				//top, left : 클릭을 시작한 위치를 저장하는 변수
+				//			  (추후 setTimeout 발동 시점의 x,y좌표와 비교하여 드래그 여부를 판별)
+				var obj = $(this);
+				setTimeout(function () {
+					if(touchFlag == true){
+						console.log("롱 클릭!");
+						$("body").append("<div id='item-popup-background'></div>");
+						var itemPopup = "<div class='item-popup'>수정 삭제<br>상세보기</div>";
+						obj.append(itemPopup);
+					}
+				}, 300);
+			});
+			$(".item").on("drag", function () {
+				touchFlag = false;
+			});
+			$(".item").on("touchend", function () {
+				touchFlag = false;
+			});
+		});
+		
+		$(document).on("touchstart", "#item-popup-background", function(){
+			$(".item-popup").remove();
+			$("#item-popup-background").remove();
+		});
 	</script>
 </head>
 
