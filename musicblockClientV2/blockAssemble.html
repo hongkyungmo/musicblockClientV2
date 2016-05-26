@@ -184,7 +184,7 @@
 					}
 					
 					//스크롤바 크기 업데이트
-					sizingScrollbar();
+					resizingScrollbar();
 				}
 			});
 		});
@@ -203,24 +203,26 @@
 				//좌변의절대좌표를 상대좌표화해야 계산이 쉬워짐
 				
 				//스크롤바 위치 계산을 위한 변수 셋팅 - 1차 가공
-				var walkerLeft = $("#dest-scrollbar-walker").offset().left;
-				var containerLeft = $("#dest-scrollbar").offset().left;
-				var walkerWidth = $("#dest-scrollbar-walker").width();
+				var scrollbarOffsetLeft = $("#dest-scrollbar-walker").offset().left;
+				var containerOffsetLeft = $("#dest-scrollbar").offset().left;
+				var scrollbarWalkerWidth = $("#dest-scrollbar-walker").width();
 				var containerWidth = $("#dest-scrollbar").width();
 				
 				//스크롤바 위치 계산을 위한 변수 셋팅 - 2차 가공
-				var walkerLength = containerWidth - walkerWidth; //스크롤바가 이동 가능한 거리
-				var walkerRelativeX = walkerLeft - containerLeft - 3;//스크롤바의 X축 상대좌표
+				var walkerLength = containerWidth - scrollbarWalkerWidth; //스크롤바가 이동 가능한 거리
+				var walkerRelativeX = scrollbarOffsetLeft - containerOffsetLeft - 3;//스크롤바의 X축 상대좌표
 				
 				//피아노 레이어의 변수 셋팅
 				var countExcessiveItems = $("#dest-piano > .item").length - 5;
-				var walkerLengthOnPianoLayer = countExcessiveItems * 120;
+				var walkerLengthOnPianoLayer = countExcessiveItems * 110;
 				
 				var movingLeft = - walkerLengthOnPianoLayer/walkerLength * walkerRelativeX;
+				movingLeft += 80;
+				console.log(movingLeft);
 				$("#dest-piano").css("left", movingLeft + "px");
 			});
 		});
-		var sizingScrollbar = function(){
+		var resizingScrollbar = function(){
 			var itemLength = $("#dest-piano > .item").length;
 			if(itemLength<=5){
 				return;
